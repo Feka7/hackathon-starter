@@ -5,12 +5,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { SiweMessage } from "siwe";
-import { useAccount, useNetwork, useSignMessage } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 
 export function Siwe() {
   const { signMessageAsync } = useSignMessage();
-  const { chain } = useNetwork();
-  const { address } = useAccount();
+  const { address, chain } = useAccount();
   const { data: session, status } = useSession();
   const [isSigning, setIsSigning] = useState(false);
   const router = useRouter();

@@ -3,81 +3,80 @@ import { useRef } from "react";
 import toast from "react-hot-toast";
 import { twMerge } from "tailwind-merge";
 import { useIsClient } from "usehooks-ts";
+import { formatEther, formatGwei, parseEther, parseGwei } from "viem";
 import {
   useAccount,
+  useAccountEffect,
   useBalance,
   useConnect,
   useDisconnect,
-  useFeeData,
-  useNetwork,
-  useSwitchNetwork,
+  useGasPrice,
+  useSwitchChain,
 } from "wagmi";
+import { ConnectErrorType } from "wagmi/actions";
+import { injected } from "wagmi/connectors";
 
 const ConnectButton: React.FC = () => {
   const ref = useRef<HTMLDialogElement>(null);
   const isClient = useIsClient();
-  const { connect, connectors, isLoading, pendingConnector } = useConnect({
-    onError: (error) => {
-      toast.error(error.message);
+  const { connect, isPending: isPendingConnect } = useConnect({
+    mutation: {
+      onError: (error: ConnectErrorType) => {
+        toast.error(error.message);
+      },
     },
   });
-  const { address, isConnected } = useAccount({
-    onConnect: ({isReconnected}) => {
-       if(!isReconnected) {
+  const { address, isConnected, chain } = useAccount();
+
+  useAccountEffect({
+    onConnect: ({ isReconnected }) => {
+      if (!isReconnected) {
         toast.success("Connected");
-       }
+      }
     },
     onDisconnect: () => {
       toast.success("Disconnected");
     },
   });
-  const { chain } = useNetwork();
-  const {
-    chains,
-    isLoading: isLoadingSwitch,
-    switchNetwork,
-  } = useSwitchNetwork();
+
+  const { chains, isPending: isPendingSwitch, switchChain } = useSwitchChain();
   const { data: balance } = useBalance({
     address: address,
     chainId: chain?.id,
-    watch: isConnected,
   });
-  const { data: networkFee } = useFeeData({
-    cacheTime: 10_000,
-    watch: isConnected,
-  });
-  const { disconnect } = useDisconnect();
-  const connector = connectors.at(0);
 
-  if (!isClient || !connector)
-    return <div className="skeleton w-40 h-10 rounded-xl"></div>;
+  const { data: gasPrice, isPending: isPendingGasPrice } = useGasPrice();
+
+  const { disconnect } = useDisconnect();
+  const unsupported = chains.filter((x) => x.id !== chain?.id).length === 0;
+
+  if (!isClient) return <div className="skeleton w-40 h-10 rounded-xl"></div>;
 
   return (
     <>
       <button
-        disabled={!connector.ready || isLoading || isLoadingSwitch}
-        key={connector.id}
+        disabled={isPendingConnect || isPendingSwitch}
         onClick={
           isConnected
-            ? chain?.unsupported
-              ? () => switchNetwork?.(chains[0].id)
+            ? unsupported
+              ? () => switchChain?.({ chainId: chains[0].id })
               : () => ref.current?.showModal()
-            : () => connect({ connector })
+            : () => connect({ connector: injected() })
         }
         className={twMerge(
           "text-white px-4 py-2 rounded-xl w-40 h-10",
-          chain?.unsupported && isConnected ? "bg-error" : "bg-primary"
+          unsupported && isConnected ? "bg-error" : "bg-primary"
         )}
       >
-        {isLoading ? (
-          connector.id === pendingConnector?.id && " (connecting)"
+        {isPendingConnect ? (
+          " (connecting)"
         ) : (
           <>
             {isConnected ? (
               <>
-                {!chain?.unsupported
-                  ? address?.slice(0, 6) + "..." + address?.slice(-4)
-                  : "Wrong network"}
+                {unsupported
+                  ? "Wrong network"
+                  : address?.slice(0, 6) + "..." + address?.slice(-4)}
               </>
             ) : (
               "Connect"
@@ -100,8 +99,10 @@ const ConnectButton: React.FC = () => {
             <select
               className="select select-bordered w-full max-w-xs"
               value={chain?.id}
-              onChange={(e) => switchNetwork?.(parseInt(e.target.value))}
-              disabled={isLoadingSwitch}
+              onChange={(e) =>
+                switchChain?.({ chainId: parseInt(e.target.value) })
+              }
+              disabled={isPendingSwitch}
             >
               {chains.map((chain) => (
                 <option key={chain.id} value={chain.id}>
@@ -110,7 +111,14 @@ const ConnectButton: React.FC = () => {
               ))}
             </select>
           </div>
-          <p className="py-4">Gas price: {networkFee?.formatted.gasPrice}</p>
+          <p className="py-4">
+            Gas price:{" "}
+            {isPendingGasPrice || !gasPrice ? (
+              <span className="skeleton w-20 h-5 rounded"></span>
+            ) : (
+              <> {formatGwei(gasPrice)} Gwei</>
+            )}
+          </p>
           <button
             onClick={() => {
               disconnect();

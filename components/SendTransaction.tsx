@@ -3,52 +3,67 @@ import { useDebounce, useIsClient } from "usehooks-ts";
 import {
   useAccount,
   useBalance,
-  useNetwork,
-  usePrepareSendTransaction,
   useSendTransaction,
-  useWaitForTransaction,
+  useSwitchChain,
+  useWaitForTransactionReceipt,
 } from "wagmi";
-import { parseEther } from "viem";
-import { useState } from "react";
+import { Address, parseEther } from "viem";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function SendTransaction() {
   const isClient = useIsClient();
-  const { address, isConnected } = useAccount();
-  const { chain } = useNetwork();
+  const { address, isConnected, chain } = useAccount();
   const { data: balance } = useBalance({
     address: address,
     chainId: chain?.id,
-    watch: isConnected,
   });
+  const { chains } = useSwitchChain();
   const [to, setTo] = useState("");
   const debouncedTo = useDebounce<string>(to, 500);
   const [amount, setAmount] = useState("");
   const debouncedAmount = useDebounce<string>(amount, 500);
 
-  const { config, error } = usePrepareSendTransaction({
-    to: debouncedTo,
-    value: debouncedAmount ? parseEther(debouncedAmount) : undefined,
-  });
-  const { data, sendTransaction } = useSendTransaction(config);
-
-  const { isLoading } = useWaitForTransaction({
-    hash: data?.hash,
-    chainId: chain?.id,
-    onSuccess: () => {
-      setTo("");
-      setAmount("");
-      toast.success("Transaction confirmed");
+  const {
+    data: sendTx,
+    isPending,
+    sendTransaction,
+  } = useSendTransaction({
+    mutation: {
+      onError: (error) => {
+        toast.error(error.message);
+      },
+      onSuccess: () => {
+        toast.success("Transaction sent!");
+      },
     },
   });
 
+  const { data: waitTx, error: errorWaitTx } = useWaitForTransactionReceipt({
+    hash: sendTx,
+    confirmations: 1,
+  });
+
+  useEffect(() => {
+    if (waitTx) {
+      toast.success("Transaction confirmed!");
+    }
+    if (errorWaitTx) {
+      toast.error(errorWaitTx.message);
+    }
+  }, [waitTx, errorWaitTx]);
+
+  const unsupported = chains.filter((x) => x.id !== chain?.id).length === 0;
   if (!isClient) return <div className="skeleton w-full h-40 mt-4"></div>;
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        sendTransaction?.();
+        sendTransaction({
+          to: debouncedTo as Address,
+          value: parseEther(debouncedAmount),
+        });
       }}
       className="form-control w-full"
     >
@@ -61,6 +76,11 @@ export default function SendTransaction() {
         placeholder="0xA0Cf…251e"
         value={to}
         className="input input-bordered w-full"
+        required
+        pattern="^0x[a-fA-F0-9]{40}$"
+        minLength={42}
+        maxLength={42}
+        title="Invalid address"
       />
       <label className="label">
         <span className="label-text">Amount</span>
@@ -75,22 +95,15 @@ export default function SendTransaction() {
         value={amount}
         className="input input-bordered w-full"
         type="number"
+        required
       />
       <button
         type="submit"
-        disabled={
-          isLoading ||
-          !sendTransaction ||
-          !to ||
-          !amount ||
-          !isConnected ||
-          chain?.unsupported
-        }
+        disabled={isPending || !to || !amount || !isConnected || unsupported}
         className="btn btn-primary mt-4"
       >
-        {isLoading ? "Sending..." : "Send"}
+        {isPending ? "Sending..." : "Send"}
       </button>
-      {error && <div className="text-red-500">{error.name}</div>}
     </form>
   );
 }

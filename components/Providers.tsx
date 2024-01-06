@@ -1,37 +1,32 @@
 "use client";
 import React from "react";
 import { Toaster } from "react-hot-toast";
-import { WagmiConfig, configureChains, createConfig } from "wagmi";
+import { WagmiProvider, createConfig, http } from "wagmi";
 import { mainnet, fantom, sepolia } from "wagmi/chains";
-import { InjectedConnector } from "wagmi/connectors/injected";
-import { publicProvider } from "wagmi/providers/public";
+import { injected } from "wagmi/connectors";
 import { SessionProvider } from "next-auth/react";
-
-const { chains, publicClient } = configureChains(
-  [mainnet, fantom, sepolia],
-  [publicProvider()]
-);
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const config = createConfig({
-  autoConnect: true,
-  publicClient,
-  connectors: [
-    new InjectedConnector({
-      chains,
-      options: {
-        name: "Injected",
-        shimDisconnect: true,
-      },
-    }),
-  ],
+  chains: [mainnet, fantom, sepolia],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+    [fantom.id]: http(),
+  },
+  connectors: [injected()],
 });
+
+const queryClient = new QueryClient();
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <WagmiConfig config={config}>
-        <SessionProvider>{children}</SessionProvider>
-      </WagmiConfig>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <SessionProvider>{children}</SessionProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
       <Toaster />
     </>
   );
