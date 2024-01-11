@@ -1,5 +1,5 @@
 "use client";
-import { useDebounce, useIsClient } from "usehooks-ts";
+import { useDebounce } from "usehooks-ts";
 import {
   useAccount,
   useBalance,
@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function SendTransaction() {
-  const isClient = useIsClient();
+  
   const { address, isConnected, chain } = useAccount();
   const { data: balance } = useBalance({
     address: address,
@@ -54,7 +54,6 @@ export default function SendTransaction() {
   }, [waitTx, errorWaitTx]);
 
   const unsupported = chains.filter((x) => x.id !== chain?.id).length === 0;
-  if (!isClient) return <div className="skeleton w-full h-40 mt-4"></div>;
 
   return (
     <form

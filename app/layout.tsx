@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
-import { DotGothic16 } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
-
-const font = DotGothic16({
-  weight: "400",
-  style: "normal",
-  subsets: ["latin"],
-});
+import { headers } from "next/headers";
+import { cookieToInitialState } from "wagmi";
+import { config } from "@/lib/wagmi";
 
 export const metadata: Metadata = {
   title: "Hackathon Starter",
@@ -21,15 +17,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  
+  const initialState = cookieToInitialState(
+    config,
+    headers().get('cookie')
+  );
+
   return (
     <html lang="en" data-theme="winter">
-      <body
-        className={
-          font.className + " w-full place-content-center flex min-h-screen bg-base-100"
-        }
-      >
-        <Providers>
-          <div className="max-w-5xl flex flex-col w-full">
+      <body className="w-full place-content-center flex min-h-screen bg-base-100">
+        <Providers initialState={initialState}>
+          <div className="max-w-7xl flex flex-col w-full">
             <div className="mt-4">
               <Navbar />
             </div>
@@ -42,4 +40,17 @@ export default function RootLayout({
       </body>
     </html>
   );
+}
+
+function extractWagmiString(inputString: string | null) {
+  if (!inputString) {
+    return null;
+  }
+  const substrings = inputString.split(" ");
+  for (let substring of substrings) {
+    if (substring.startsWith("wagmi.store")) {
+      return substring;
+    }
+  }
+  return null;
 }

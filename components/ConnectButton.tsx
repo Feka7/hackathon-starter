@@ -2,8 +2,7 @@
 import { useRef } from "react";
 import toast from "react-hot-toast";
 import { twMerge } from "tailwind-merge";
-import { useIsClient } from "usehooks-ts";
-import { formatEther, formatGwei, parseEther, parseGwei } from "viem";
+import { formatGwei } from "viem";
 import {
   useAccount,
   useAccountEffect,
@@ -18,7 +17,6 @@ import { injected } from "wagmi/connectors";
 
 const ConnectButton: React.FC = () => {
   const ref = useRef<HTMLDialogElement>(null);
-  const isClient = useIsClient();
   const { connect, isPending: isPendingConnect } = useConnect({
     mutation: {
       onError: (error: ConnectErrorType) => {
@@ -49,8 +47,6 @@ const ConnectButton: React.FC = () => {
 
   const { disconnect } = useDisconnect();
   const unsupported = chains.filter((x) => x.id !== chain?.id).length === 0;
-
-  if (!isClient) return <div className="skeleton w-40 h-10 rounded-xl"></div>;
 
   return (
     <>

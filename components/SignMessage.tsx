@@ -1,12 +1,11 @@
 "use client";
 import { verify } from "@/actions/verify";
 import toast from "react-hot-toast";
-import { useIsClient } from "usehooks-ts";
 import { useAccount, useSignMessage } from "wagmi";
 import ButtonSubmit from "./ButtonSubmit";
 
 export function SignMessage() {
-  const isClient = useIsClient();
+  
   const { address } = useAccount();
   const { data: signMessageData, error, signMessageAsync } = useSignMessage();
 
@@ -36,8 +35,6 @@ export function SignMessage() {
       }
     }
   };
-
-  if (!isClient) return <div className="skeleton w-full h-40 mt-4"></div>;
 
   return (
     <form action={submit} className="form-control w-full">
