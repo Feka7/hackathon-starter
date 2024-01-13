@@ -1,21 +1,216 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Mememorphosis
+// Multicall2
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const mememorphosisABI = [
+export const multicall2Abi = [
   {
-    stateMutability: 'nonpayable',
-    type: 'constructor',
+    type: 'function',
     inputs: [
-      { name: 'minGasToStore', internalType: 'uint256', type: 'uint256' },
-      { name: 'defaultGasLimit', internalType: 'uint256', type: 'uint256' },
-      { name: 'layerZeroEndpoint', internalType: 'address', type: 'address' },
-      { name: 'startMintId', internalType: 'uint256', type: 'uint256' },
-      { name: 'endMintId', internalType: 'uint256', type: 'uint256' },
-      { name: 'mintPrice_', internalType: 'uint256', type: 'uint256' },
-      { name: 'sendPrice_', internalType: 'uint256', type: 'uint256' },
-      { name: 'chainId', internalType: 'uint8', type: 'uint8' },
+      {
+        name: 'calls',
+        internalType: 'struct Multicall2.Call[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'target', internalType: 'address', type: 'address' },
+          { name: 'callData', internalType: 'bytes', type: 'bytes' },
+        ],
+      },
     ],
+    name: 'aggregate',
+    outputs: [
+      { name: 'blockNumber', internalType: 'uint256', type: 'uint256' },
+      { name: 'returnData', internalType: 'bytes[]', type: 'bytes[]' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'calls',
+        internalType: 'struct Multicall2.Call[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'target', internalType: 'address', type: 'address' },
+          { name: 'callData', internalType: 'bytes', type: 'bytes' },
+        ],
+      },
+    ],
+    name: 'blockAndAggregate',
+    outputs: [
+      { name: 'blockNumber', internalType: 'uint256', type: 'uint256' },
+      { name: 'blockHash', internalType: 'bytes32', type: 'bytes32' },
+      {
+        name: 'returnData',
+        internalType: 'struct Multicall2.Result[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'success', internalType: 'bool', type: 'bool' },
+          { name: 'returnData', internalType: 'bytes', type: 'bytes' },
+        ],
+      },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'blockNumber', internalType: 'uint256', type: 'uint256' }],
+    name: 'getBlockHash',
+    outputs: [{ name: 'blockHash', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getBlockNumber',
+    outputs: [
+      { name: 'blockNumber', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getCurrentBlockCoinbase',
+    outputs: [{ name: 'coinbase', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getCurrentBlockDifficulty',
+    outputs: [{ name: 'difficulty', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getCurrentBlockGasLimit',
+    outputs: [{ name: 'gaslimit', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getCurrentBlockTimestamp',
+    outputs: [{ name: 'timestamp', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'addr', internalType: 'address', type: 'address' }],
+    name: 'getEthBalance',
+    outputs: [{ name: 'balance', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getLastBlockHash',
+    outputs: [{ name: 'blockHash', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'requireSuccess', internalType: 'bool', type: 'bool' },
+      {
+        name: 'calls',
+        internalType: 'struct Multicall2.Call[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'target', internalType: 'address', type: 'address' },
+          { name: 'callData', internalType: 'bytes', type: 'bytes' },
+        ],
+      },
+    ],
+    name: 'tryAggregate',
+    outputs: [
+      {
+        name: 'returnData',
+        internalType: 'struct Multicall2.Result[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'success', internalType: 'bool', type: 'bool' },
+          { name: 'returnData', internalType: 'bytes', type: 'bytes' },
+        ],
+      },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'requireSuccess', internalType: 'bool', type: 'bool' },
+      {
+        name: 'calls',
+        internalType: 'struct Multicall2.Call[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'target', internalType: 'address', type: 'address' },
+          { name: 'callData', internalType: 'bytes', type: 'bytes' },
+        ],
+      },
+    ],
+    name: 'tryBlockAndAggregate',
+    outputs: [
+      { name: 'blockNumber', internalType: 'uint256', type: 'uint256' },
+      { name: 'blockHash', internalType: 'bytes32', type: 'bytes32' },
+      {
+        name: 'returnData',
+        internalType: 'struct Multicall2.Result[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'success', internalType: 'bool', type: 'bool' },
+          { name: 'returnData', internalType: 'bytes', type: 'bytes' },
+        ],
+      },
+    ],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+export const multicall2Address =
+  '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696' as const
+
+export const multicall2Config = {
+  address: multicall2Address,
+  abi: multicall2Abi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Permit2
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const permit2Abi = [
+  {
+    type: 'error',
+    inputs: [{ name: 'deadline', internalType: 'uint256', type: 'uint256' }],
+    name: 'AllowanceExpired',
+  },
+  { type: 'error', inputs: [], name: 'ExcessiveInvalidation' },
+  {
+    type: 'error',
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'InsufficientAllowance',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'maxAmount', internalType: 'uint256', type: 'uint256' }],
+    name: 'InvalidAmount',
+  },
+  { type: 'error', inputs: [], name: 'InvalidContractSignature' },
+  { type: 'error', inputs: [], name: 'InvalidNonce' },
+  { type: 'error', inputs: [], name: 'InvalidSignature' },
+  { type: 'error', inputs: [], name: 'InvalidSignatureLength' },
+  { type: 'error', inputs: [], name: 'InvalidSigner' },
+  { type: 'error', inputs: [], name: 'LengthMismatch' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'signatureDeadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'SignatureExpired',
   },
   {
     type: 'event',
@@ -28,16 +223,28 @@ export const mememorphosisABI = [
         indexed: true,
       },
       {
-        name: 'approved',
+        name: 'token',
         internalType: 'address',
         type: 'address',
         indexed: true,
       },
       {
-        name: 'tokenId',
-        internalType: 'uint256',
-        type: 'uint256',
+        name: 'spender',
+        internalType: 'address',
+        type: 'address',
         indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint160',
+        type: 'uint160',
+        indexed: false,
+      },
+      {
+        name: 'expiration',
+        internalType: 'uint48',
+        type: 'uint48',
+        indexed: false,
       },
     ],
     name: 'Approval',
@@ -53,977 +260,451 @@ export const mememorphosisABI = [
         indexed: true,
       },
       {
-        name: 'operator',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      { name: 'approved', internalType: 'bool', type: 'bool', indexed: false },
-    ],
-    name: 'ApprovalForAll',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: '_hashedPayload',
-        internalType: 'bytes32',
-        type: 'bytes32',
-        indexed: false,
-      },
-    ],
-    name: 'CreditCleared',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: '_hashedPayload',
-        internalType: 'bytes32',
-        type: 'bytes32',
-        indexed: false,
-      },
-      {
-        name: '_payload',
-        internalType: 'bytes',
-        type: 'bytes',
-        indexed: false,
-      },
-    ],
-    name: 'CreditStored',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: '_srcChainId',
-        internalType: 'uint16',
-        type: 'uint16',
-        indexed: false,
-      },
-      {
-        name: '_srcAddress',
-        internalType: 'bytes',
-        type: 'bytes',
-        indexed: false,
-      },
-      {
-        name: '_nonce',
-        internalType: 'uint64',
-        type: 'uint64',
-        indexed: false,
-      },
-      {
-        name: '_payload',
-        internalType: 'bytes',
-        type: 'bytes',
-        indexed: false,
-      },
-      { name: '_reason', internalType: 'bytes', type: 'bytes', indexed: false },
-    ],
-    name: 'MessageFailed',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'previousOwner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'newOwner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-    ],
-    name: 'OwnershipTransferred',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: '_srcChainId',
-        internalType: 'uint16',
-        type: 'uint16',
-        indexed: true,
-      },
-      {
-        name: '_srcAddress',
-        internalType: 'bytes',
-        type: 'bytes',
-        indexed: true,
-      },
-      {
-        name: '_toAddress',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: '_tokenIds',
-        internalType: 'uint256[]',
-        type: 'uint256[]',
-        indexed: false,
-      },
-    ],
-    name: 'ReceiveFromChain',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'referrer',
+        name: 'token',
         internalType: 'address',
         type: 'address',
         indexed: false,
       },
       {
-        name: 'referral',
+        name: 'spender',
         internalType: 'address',
         type: 'address',
         indexed: false,
       },
     ],
-    name: 'Referral',
+    name: 'Lockdown',
   },
   {
     type: 'event',
     anonymous: false,
     inputs: [
       {
-        name: '_srcChainId',
-        internalType: 'uint16',
-        type: 'uint16',
-        indexed: false,
-      },
-      {
-        name: '_srcAddress',
-        internalType: 'bytes',
-        type: 'bytes',
-        indexed: false,
-      },
-      {
-        name: '_nonce',
-        internalType: 'uint64',
-        type: 'uint64',
-        indexed: false,
-      },
-      {
-        name: '_payloadHash',
-        internalType: 'bytes32',
-        type: 'bytes32',
-        indexed: false,
-      },
-    ],
-    name: 'RetryMessageSuccess',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: '_dstChainId',
-        internalType: 'uint16',
-        type: 'uint16',
-        indexed: true,
-      },
-      {
-        name: '_from',
+        name: 'owner',
         internalType: 'address',
         type: 'address',
         indexed: true,
       },
       {
-        name: '_toAddress',
-        internalType: 'bytes',
-        type: 'bytes',
+        name: 'token',
+        internalType: 'address',
+        type: 'address',
         indexed: true,
       },
       {
-        name: '_tokenIds',
-        internalType: 'uint256[]',
-        type: 'uint256[]',
+        name: 'spender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newNonce',
+        internalType: 'uint48',
+        type: 'uint48',
+        indexed: false,
+      },
+      {
+        name: 'oldNonce',
+        internalType: 'uint48',
+        type: 'uint48',
         indexed: false,
       },
     ],
-    name: 'SendToChain',
+    name: 'NonceInvalidation',
   },
   {
     type: 'event',
     anonymous: false,
     inputs: [
       {
-        name: '_dstChainId',
-        internalType: 'uint16',
-        type: 'uint16',
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'token',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'spender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint160',
+        type: 'uint160',
         indexed: false,
       },
       {
-        name: '_dstChainIdToBatchLimit',
+        name: 'expiration',
+        internalType: 'uint48',
+        type: 'uint48',
+        indexed: false,
+      },
+      { name: 'nonce', internalType: 'uint48', type: 'uint48', indexed: false },
+    ],
+    name: 'Permit',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'word',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'mask',
         internalType: 'uint256',
         type: 'uint256',
         indexed: false,
       },
     ],
-    name: 'SetDstChainIdToBatchLimit',
+    name: 'UnorderedNonceInvalidation',
   },
   {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: '_dstChainId',
-        internalType: 'uint16',
-        type: 'uint16',
-        indexed: false,
-      },
-      {
-        name: '_dstChainIdToTransferGas',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'SetDstChainIdToTransferGas',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: '_dstChainId',
-        internalType: 'uint16',
-        type: 'uint16',
-        indexed: false,
-      },
-      { name: '_type', internalType: 'uint16', type: 'uint16', indexed: false },
-      {
-        name: '_minDstGas',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'SetMinDstGas',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: '_minGasToTransferAndStore',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'SetMinGasToTransferAndStore',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'precrime',
-        internalType: 'address',
-        type: 'address',
-        indexed: false,
-      },
-    ],
-    name: 'SetPrecrime',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: '_remoteChainId',
-        internalType: 'uint16',
-        type: 'uint16',
-        indexed: false,
-      },
-      { name: '_path', internalType: 'bytes', type: 'bytes', indexed: false },
-    ],
-    name: 'SetTrustedRemote',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: '_remoteChainId',
-        internalType: 'uint16',
-        type: 'uint16',
-        indexed: false,
-      },
-      {
-        name: '_remoteAddress',
-        internalType: 'bytes',
-        type: 'bytes',
-        indexed: false,
-      },
-    ],
-    name: 'SetTrustedRemoteAddress',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address', indexed: true },
-      { name: 'to', internalType: 'address', type: 'address', indexed: true },
-      {
-        name: 'tokenId',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: true,
-      },
-    ],
-    name: 'Transfer',
-  },
-  { stateMutability: 'payable', type: 'fallback' },
-  {
-    stateMutability: 'view',
     type: 'function',
     inputs: [],
-    name: 'DEFAULT_PAYLOAD_SIZE_LIMIT',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
+    name: 'DOMAIN_SEPARATOR',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
     stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'FUNCTION_TYPE_SEND',
-    outputs: [{ name: '', internalType: 'uint16', type: 'uint16' }],
   },
   {
-    stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'address', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [
+      { name: 'amount', internalType: 'uint160', type: 'uint160' },
+      { name: 'expiration', internalType: 'uint48', type: 'uint48' },
+      { name: 'nonce', internalType: 'uint48', type: 'uint48' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'token', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint160', type: 'uint160' },
+      { name: 'expiration', internalType: 'uint48', type: 'uint48' },
     ],
     name: 'approve',
     outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
-    name: 'balanceOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
     stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [],
-    name: 'claimFunds',
-    outputs: [],
   },
   {
+    type: 'function',
+    inputs: [
+      { name: 'token', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'newNonce', internalType: 'uint48', type: 'uint48' },
+    ],
+    name: 'invalidateNonces',
+    outputs: [],
     stateMutability: 'nonpayable',
+  },
+  {
     type: 'function',
-    inputs: [{ name: '_payload', internalType: 'bytes', type: 'bytes' }],
-    name: 'clearCredits',
+    inputs: [
+      { name: 'wordPos', internalType: 'uint256', type: 'uint256' },
+      { name: 'mask', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'invalidateUnorderedNonces',
     outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: '', internalType: 'uint16', type: 'uint16' }],
-    name: 'dstChainIdToBatchLimit',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: '', internalType: 'uint16', type: 'uint16' }],
-    name: 'dstChainIdToTransferGas',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [
-      { name: '_dstChainId', internalType: 'uint16', type: 'uint16' },
-      { name: '_toAddress', internalType: 'bytes', type: 'bytes' },
-      { name: '_tokenIds', internalType: 'uint256[]', type: 'uint256[]' },
-      { name: '_useZro', internalType: 'bool', type: 'bool' },
-      { name: '_adapterParams', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'estimateSendBatchFee',
-    outputs: [
-      { name: 'nativeFee', internalType: 'uint256', type: 'uint256' },
-      { name: 'zroFee', internalType: 'uint256', type: 'uint256' },
-    ],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [
-      { name: '_dstChainId', internalType: 'uint16', type: 'uint16' },
-      { name: '_toAddress', internalType: 'bytes', type: 'bytes' },
-      { name: '_tokenId', internalType: 'uint256', type: 'uint256' },
-      { name: '_useZro', internalType: 'bool', type: 'bool' },
-      { name: '_adapterParams', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'estimateSendFee',
-    outputs: [
-      { name: 'nativeFee', internalType: 'uint256', type: 'uint256' },
-      { name: 'zroFee', internalType: 'uint256', type: 'uint256' },
-    ],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [
-      { name: '', internalType: 'uint16', type: 'uint16' },
-      { name: '', internalType: 'bytes', type: 'bytes' },
-      { name: '', internalType: 'uint64', type: 'uint64' },
-    ],
-    name: 'failedMessages',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-  },
-  {
     stateMutability: 'nonpayable',
+  },
+  {
     type: 'function',
     inputs: [
-      { name: '_srcChainId', internalType: 'uint16', type: 'uint16' },
-      { name: '_srcAddress', internalType: 'bytes', type: 'bytes' },
+      {
+        name: 'approvals',
+        internalType: 'struct IAllowanceTransfer.TokenSpenderPair[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'token', internalType: 'address', type: 'address' },
+          { name: 'spender', internalType: 'address', type: 'address' },
+        ],
+      },
     ],
-    name: 'forceResumeReceive',
+    name: 'lockdown',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
-    name: 'getApproved',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
     type: 'function',
     inputs: [
-      { name: '_version', internalType: 'uint16', type: 'uint16' },
-      { name: '_chainId', internalType: 'uint16', type: 'uint16' },
       { name: '', internalType: 'address', type: 'address' },
-      { name: '_configType', internalType: 'uint256', type: 'uint256' },
+      { name: '', internalType: 'uint256', type: 'uint256' },
     ],
-    name: 'getConfig',
-    outputs: [{ name: '', internalType: 'bytes', type: 'bytes' }],
+    name: 'nonceBitmap',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [
-      { name: '_remoteChainId', internalType: 'uint16', type: 'uint16' },
-    ],
-    name: 'getTrustedRemoteAddress',
-    outputs: [{ name: '', internalType: 'bytes', type: 'bytes' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'id', internalType: 'uint256', type: 'uint256' }],
-    name: 'getVisitedChains',
-    outputs: [
-      { name: 'visitedChains', internalType: 'uint8[]', type: 'uint8[]' },
-    ],
-  },
-  {
-    stateMutability: 'view',
     type: 'function',
     inputs: [
       { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'operator', internalType: 'address', type: 'address' },
-    ],
-    name: 'isApprovedForAll',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [
-      { name: '_srcChainId', internalType: 'uint16', type: 'uint16' },
-      { name: '_srcAddress', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'isTrustedRemote',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'lzEndpoint',
-    outputs: [
       {
-        name: '',
-        internalType: 'contract ILayerZeroEndpoint',
-        type: 'address',
+        name: 'permitBatch',
+        internalType: 'struct IAllowanceTransfer.PermitBatch',
+        type: 'tuple',
+        components: [
+          {
+            name: 'details',
+            internalType: 'struct IAllowanceTransfer.PermitDetails[]',
+            type: 'tuple[]',
+            components: [
+              { name: 'token', internalType: 'address', type: 'address' },
+              { name: 'amount', internalType: 'uint160', type: 'uint160' },
+              { name: 'expiration', internalType: 'uint48', type: 'uint48' },
+              { name: 'nonce', internalType: 'uint48', type: 'uint48' },
+            ],
+          },
+          { name: 'spender', internalType: 'address', type: 'address' },
+          { name: 'sigDeadline', internalType: 'uint256', type: 'uint256' },
+        ],
       },
+      { name: 'signature', internalType: 'bytes', type: 'bytes' },
     ],
-  },
-  {
+    name: 'permit',
+    outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: '_srcChainId', internalType: 'uint16', type: 'uint16' },
-      { name: '_srcAddress', internalType: 'bytes', type: 'bytes' },
-      { name: '_nonce', internalType: 'uint64', type: 'uint64' },
-      { name: '_payload', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'lzReceive',
-    outputs: [],
   },
   {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'maxMintId',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'metadataGenerator',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [
-      { name: '', internalType: 'uint16', type: 'uint16' },
-      { name: '', internalType: 'uint16', type: 'uint16' },
-    ],
-    name: 'minDstGasLookup',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'minGasToTransferAndStore',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [{ name: 'n', internalType: 'uint256', type: 'uint256' }],
-    name: 'mint',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'mintPrice',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [
-      { name: 'n', internalType: 'uint256', type: 'uint256' },
-      { name: 'referrer', internalType: 'address', type: 'address' },
-    ],
-    name: 'mintWithReferral',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'name',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'nextMintId',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: '_srcChainId', internalType: 'uint16', type: 'uint16' },
-      { name: '_srcAddress', internalType: 'bytes', type: 'bytes' },
-      { name: '_nonce', internalType: 'uint64', type: 'uint64' },
-      { name: '_payload', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'nonblockingLzReceive',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'owner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
-    name: 'ownerOf',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: '', internalType: 'uint16', type: 'uint16' }],
-    name: 'payloadSizeLimitLookup',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'precrime',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [],
-    name: 'renounceOwnership',
-    outputs: [],
-  },
-  {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [
-      { name: '_srcChainId', internalType: 'uint16', type: 'uint16' },
-      { name: '_srcAddress', internalType: 'bytes', type: 'bytes' },
-      { name: '_nonce', internalType: 'uint64', type: 'uint64' },
-      { name: '_payload', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'retryMessage',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'safeTransferFrom',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
-      { name: 'data', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'safeTransferFrom',
-    outputs: [],
-  },
-  {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [
-      { name: '_from', internalType: 'address', type: 'address' },
-      { name: '_dstChainId', internalType: 'uint16', type: 'uint16' },
-      { name: '_toAddress', internalType: 'bytes', type: 'bytes' },
-      { name: '_tokenIds', internalType: 'uint256[]', type: 'uint256[]' },
-      {
-        name: '_refundAddress',
-        internalType: 'address payable',
-        type: 'address',
-      },
-      { name: '_zroPaymentAddress', internalType: 'address', type: 'address' },
-      { name: '_adapterParams', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'sendBatchFrom',
-    outputs: [],
-  },
-  {
-    stateMutability: 'payable',
-    type: 'function',
-    inputs: [
-      { name: '_from', internalType: 'address', type: 'address' },
-      { name: '_dstChainId', internalType: 'uint16', type: 'uint16' },
-      { name: '_toAddress', internalType: 'bytes', type: 'bytes' },
-      { name: '_tokenId', internalType: 'uint256', type: 'uint256' },
-      {
-        name: '_refundAddress',
-        internalType: 'address payable',
-        type: 'address',
-      },
-      { name: '_zroPaymentAddress', internalType: 'address', type: 'address' },
-      { name: '_adapterParams', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'sendFrom',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'sendPrice',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'operator', internalType: 'address', type: 'address' },
-      { name: 'approved', internalType: 'bool', type: 'bool' },
-    ],
-    name: 'setApprovalForAll',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: '_version', internalType: 'uint16', type: 'uint16' },
-      { name: '_chainId', internalType: 'uint16', type: 'uint16' },
-      { name: '_configType', internalType: 'uint256', type: 'uint256' },
-      { name: '_config', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'setConfig',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: '_dstChainId', internalType: 'uint16', type: 'uint16' },
-      {
-        name: '_dstChainIdToBatchLimit',
-        internalType: 'uint256',
-        type: 'uint256',
-      },
-    ],
-    name: 'setDstChainIdToBatchLimit',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: '_dstChainId', internalType: 'uint16', type: 'uint16' },
-      {
-        name: '_dstChainIdToTransferGas',
-        internalType: 'uint256',
-        type: 'uint256',
-      },
-    ],
-    name: 'setDstChainIdToTransferGas',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'metadataGenerator_', internalType: 'address', type: 'address' },
-    ],
-    name: 'setMetadataGenerator',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: '_dstChainId', internalType: 'uint16', type: 'uint16' },
-      { name: '_packetType', internalType: 'uint16', type: 'uint16' },
-      { name: '_minGas', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'setMinDstGas',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      {
-        name: '_minGasToTransferAndStore',
-        internalType: 'uint256',
-        type: 'uint256',
-      },
-    ],
-    name: 'setMinGasToTransferAndStore',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'mintPrice_', internalType: 'uint256', type: 'uint256' }],
-    name: 'setMintPrice',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: '_dstChainId', internalType: 'uint16', type: 'uint16' },
-      { name: '_size', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'setPayloadSizeLimit',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: '_precrime', internalType: 'address', type: 'address' }],
-    name: 'setPrecrime',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: '_version', internalType: 'uint16', type: 'uint16' }],
-    name: 'setReceiveVersion',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'sendPrice_', internalType: 'uint256', type: 'uint256' }],
-    name: 'setSendPrice',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: '_version', internalType: 'uint16', type: 'uint16' }],
-    name: 'setSendVersion',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: '_remoteChainId', internalType: 'uint16', type: 'uint16' },
-      { name: '_path', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'setTrustedRemote',
-    outputs: [],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: '_remoteChainId', internalType: 'uint16', type: 'uint16' },
-      { name: '_remoteAddress', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'setTrustedRemoteAddress',
-    outputs: [],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-    name: 'storedCredits',
-    outputs: [
-      { name: 'srcChainId', internalType: 'uint16', type: 'uint16' },
-      { name: 'toAddress', internalType: 'address', type: 'address' },
-      { name: 'index', internalType: 'uint256', type: 'uint256' },
-      { name: 'creditsRemain', internalType: 'bool', type: 'bool' },
-    ],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'interfaceId', internalType: 'bytes4', type: 'bytes4' }],
-    name: 'supportsInterface',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'symbol',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'index', internalType: 'uint256', type: 'uint256' }],
-    name: 'tokenByIndex',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
     type: 'function',
     inputs: [
       { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'index', internalType: 'uint256', type: 'uint256' },
+      {
+        name: 'permitSingle',
+        internalType: 'struct IAllowanceTransfer.PermitSingle',
+        type: 'tuple',
+        components: [
+          {
+            name: 'details',
+            internalType: 'struct IAllowanceTransfer.PermitDetails',
+            type: 'tuple',
+            components: [
+              { name: 'token', internalType: 'address', type: 'address' },
+              { name: 'amount', internalType: 'uint160', type: 'uint160' },
+              { name: 'expiration', internalType: 'uint48', type: 'uint48' },
+              { name: 'nonce', internalType: 'uint48', type: 'uint48' },
+            ],
+          },
+          { name: 'spender', internalType: 'address', type: 'address' },
+          { name: 'sigDeadline', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+      { name: 'signature', internalType: 'bytes', type: 'bytes' },
     ],
-    name: 'tokenOfOwnerByIndex',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
-    name: 'tokenURI',
-    outputs: [{ name: '', internalType: 'string', type: 'string' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'totalSupply',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  {
+    name: 'permit',
+    outputs: [],
     stateMutability: 'nonpayable',
+  },
+  {
     type: 'function',
     inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+      {
+        name: 'permit',
+        internalType: 'struct ISignatureTransfer.PermitTransferFrom',
+        type: 'tuple',
+        components: [
+          {
+            name: 'permitted',
+            internalType: 'struct ISignatureTransfer.TokenPermissions',
+            type: 'tuple',
+            components: [
+              { name: 'token', internalType: 'address', type: 'address' },
+              { name: 'amount', internalType: 'uint256', type: 'uint256' },
+            ],
+          },
+          { name: 'nonce', internalType: 'uint256', type: 'uint256' },
+          { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+      {
+        name: 'transferDetails',
+        internalType: 'struct ISignatureTransfer.SignatureTransferDetails',
+        type: 'tuple',
+        components: [
+          { name: 'to', internalType: 'address', type: 'address' },
+          { name: 'requestedAmount', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'signature', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'permitTransferFrom',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'permit',
+        internalType: 'struct ISignatureTransfer.PermitBatchTransferFrom',
+        type: 'tuple',
+        components: [
+          {
+            name: 'permitted',
+            internalType: 'struct ISignatureTransfer.TokenPermissions[]',
+            type: 'tuple[]',
+            components: [
+              { name: 'token', internalType: 'address', type: 'address' },
+              { name: 'amount', internalType: 'uint256', type: 'uint256' },
+            ],
+          },
+          { name: 'nonce', internalType: 'uint256', type: 'uint256' },
+          { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+      {
+        name: 'transferDetails',
+        internalType: 'struct ISignatureTransfer.SignatureTransferDetails[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'to', internalType: 'address', type: 'address' },
+          { name: 'requestedAmount', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'signature', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'permitTransferFrom',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'permit',
+        internalType: 'struct ISignatureTransfer.PermitTransferFrom',
+        type: 'tuple',
+        components: [
+          {
+            name: 'permitted',
+            internalType: 'struct ISignatureTransfer.TokenPermissions',
+            type: 'tuple',
+            components: [
+              { name: 'token', internalType: 'address', type: 'address' },
+              { name: 'amount', internalType: 'uint256', type: 'uint256' },
+            ],
+          },
+          { name: 'nonce', internalType: 'uint256', type: 'uint256' },
+          { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+      {
+        name: 'transferDetails',
+        internalType: 'struct ISignatureTransfer.SignatureTransferDetails',
+        type: 'tuple',
+        components: [
+          { name: 'to', internalType: 'address', type: 'address' },
+          { name: 'requestedAmount', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'witness', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'witnessTypeString', internalType: 'string', type: 'string' },
+      { name: 'signature', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'permitWitnessTransferFrom',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'permit',
+        internalType: 'struct ISignatureTransfer.PermitBatchTransferFrom',
+        type: 'tuple',
+        components: [
+          {
+            name: 'permitted',
+            internalType: 'struct ISignatureTransfer.TokenPermissions[]',
+            type: 'tuple[]',
+            components: [
+              { name: 'token', internalType: 'address', type: 'address' },
+              { name: 'amount', internalType: 'uint256', type: 'uint256' },
+            ],
+          },
+          { name: 'nonce', internalType: 'uint256', type: 'uint256' },
+          { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+      {
+        name: 'transferDetails',
+        internalType: 'struct ISignatureTransfer.SignatureTransferDetails[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'to', internalType: 'address', type: 'address' },
+          { name: 'requestedAmount', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'witness', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'witnessTypeString', internalType: 'string', type: 'string' },
+      { name: 'signature', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'permitWitnessTransferFrom',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'transferDetails',
+        internalType: 'struct IAllowanceTransfer.AllowanceTransferDetails[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'from', internalType: 'address', type: 'address' },
+          { name: 'to', internalType: 'address', type: 'address' },
+          { name: 'amount', internalType: 'uint160', type: 'uint160' },
+          { name: 'token', internalType: 'address', type: 'address' },
+        ],
+      },
     ],
     name: 'transferFrom',
     outputs: [],
-  },
-  {
     stateMutability: 'nonpayable',
+  },
+  {
     type: 'function',
-    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
-    name: 'transferOwnership',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint160', type: 'uint160' },
+      { name: 'token', internalType: 'address', type: 'address' },
+    ],
+    name: 'transferFrom',
     outputs: [],
+    stateMutability: 'nonpayable',
   },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: '', internalType: 'uint16', type: 'uint16' }],
-    name: 'trustedRemoteLookup',
-    outputs: [{ name: '', internalType: 'bytes', type: 'bytes' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    name: 'visitedChainsMask',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-  },
-  { stateMutability: 'payable', type: 'receive' },
 ] as const
 
-export const mememorphosisAddress =
-  '0x0000049F63Ef0D60aBE49fdD8BEbfa5a68822222' as const
+export const permit2Address =
+  '0x000000000022D473030F116dDEE9F6B43aC78BA3' as const
 
-export const mememorphosisConfig = {
-  address: mememorphosisAddress,
-  abi: mememorphosisABI,
+export const permit2Config = {
+  address: permit2Address,
+  abi: permit2Abi,
 } as const

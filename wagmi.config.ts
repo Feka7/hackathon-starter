@@ -1,5 +1,7 @@
 import { defineConfig } from '@wagmi/cli'
 import { fetch } from '@wagmi/cli/plugins'
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.local' });
 
 export default defineConfig({
   out: 'contracts/generated.ts', 
@@ -7,8 +9,12 @@ export default defineConfig({
     fetch({
       contracts: [
         {
-          name: 'Mememorphosis',
-          address: '0x0000049F63Ef0D60aBE49fdD8BEbfa5a68822222',
+          name: 'Permit2',
+          address: '0x000000000022d473030f116ddee9f6b43ac78ba3'
+        },
+        {
+          name: 'Multicall2',
+          address: '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
         }
       ],
       async parse({ response }) {
@@ -23,7 +29,7 @@ export default defineConfig({
             ? contract.address
             : Object.values(contract.address)[0]
         return {
-          url: `https://api.ftmscan.com/api?module=contract&action=getabi&address=${address}`,
+          url: process.env.FETCH_ABI_URL+address,
         }
       },
     }),
