@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import toast from "react-hot-toast";
 import { twMerge } from "tailwind-merge";
-import { formatGwei } from "viem";
+import { formatEther, formatGwei, parseEther } from "viem";
 import {
   useAccount,
   useAccountEffect,
@@ -38,7 +38,7 @@ const ConnectButton: React.FC = () => {
   });
 
   const { chains, isPending: isPendingSwitch, switchChain } = useSwitchChain();
-  const { data: balance } = useBalance({
+  const { data: balance, status: statusBalance } = useBalance({
     address: address,
     chainId: chain?.id,
   });
@@ -86,7 +86,16 @@ const ConnectButton: React.FC = () => {
           <p className="py-4">Address: {address}</p>
           <p className="py-4">Chain: {chain?.name}</p>
           <p className="py-4">
-            Balance: {balance?.formatted} {balance?.symbol}
+            Balance:{" "}
+            {statusBalance === "error" ? (
+              <>Not available</>
+            ) : statusBalance === "success" ? (
+              <>
+                {formatEther(balance?.value)} {balance?.symbol}
+              </>
+            ) : (
+              <span className="skeleton w-5 h-2"></span>
+            )}
           </p>
           <div className="form-control">
             <label className="label">

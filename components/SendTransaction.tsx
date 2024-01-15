@@ -7,14 +7,14 @@ import {
   useSwitchChain,
   useWaitForTransactionReceipt,
 } from "wagmi";
-import { Address, parseEther } from "viem";
+import { Address, formatEther, parseEther } from "viem";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function SendTransaction() {
   
   const { address, isConnected, chain } = useAccount();
-  const { data: balance } = useBalance({
+  const { data: balance, refetch, status: statusBalance } = useBalance({
     address: address,
     chainId: chain?.id,
   });
@@ -47,6 +47,7 @@ export default function SendTransaction() {
   useEffect(() => {
     if (waitTx) {
       toast.success("Transaction confirmed!");
+      refetch();
     }
     if (errorWaitTx) {
       toast.error(errorWaitTx.message);
@@ -84,7 +85,15 @@ export default function SendTransaction() {
       <label className="label">
         <span className="label-text">Amount</span>
         <span className="label-text">
-          Avaiable: {balance?.formatted} {balance?.symbol}
+        Available: {statusBalance === "error" ? (
+              <>Not available</>
+            ) : statusBalance === "success" ? (
+              <>
+                {formatEther(balance?.value)} {balance?.symbol}
+              </>
+            ) : (
+              <span className="skeleton w-5 h-2"></span>
+            )}
         </span>
       </label>
       <input
