@@ -1,3 +1,10 @@
+import {
+  createUseReadContract,
+  createUseWriteContract,
+  createUseSimulateContract,
+  createUseWatchContractEvent,
+} from 'wagmi/codegen'
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Multicall2
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -708,3 +715,449 @@ export const permit2Config = {
   address: permit2Address,
   abi: permit2Abi,
 } as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// React
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link multicall2Abi}__
+ */
+export const useReadMulticall2 = /*#__PURE__*/ createUseReadContract({
+  abi: multicall2Abi,
+  address: multicall2Address,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"getBlockHash"`
+ */
+export const useReadMulticall2GetBlockHash =
+  /*#__PURE__*/ createUseReadContract({
+    abi: multicall2Abi,
+    address: multicall2Address,
+    functionName: 'getBlockHash',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"getBlockNumber"`
+ */
+export const useReadMulticall2GetBlockNumber =
+  /*#__PURE__*/ createUseReadContract({
+    abi: multicall2Abi,
+    address: multicall2Address,
+    functionName: 'getBlockNumber',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"getCurrentBlockCoinbase"`
+ */
+export const useReadMulticall2GetCurrentBlockCoinbase =
+  /*#__PURE__*/ createUseReadContract({
+    abi: multicall2Abi,
+    address: multicall2Address,
+    functionName: 'getCurrentBlockCoinbase',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"getCurrentBlockDifficulty"`
+ */
+export const useReadMulticall2GetCurrentBlockDifficulty =
+  /*#__PURE__*/ createUseReadContract({
+    abi: multicall2Abi,
+    address: multicall2Address,
+    functionName: 'getCurrentBlockDifficulty',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"getCurrentBlockGasLimit"`
+ */
+export const useReadMulticall2GetCurrentBlockGasLimit =
+  /*#__PURE__*/ createUseReadContract({
+    abi: multicall2Abi,
+    address: multicall2Address,
+    functionName: 'getCurrentBlockGasLimit',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"getCurrentBlockTimestamp"`
+ */
+export const useReadMulticall2GetCurrentBlockTimestamp =
+  /*#__PURE__*/ createUseReadContract({
+    abi: multicall2Abi,
+    address: multicall2Address,
+    functionName: 'getCurrentBlockTimestamp',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"getEthBalance"`
+ */
+export const useReadMulticall2GetEthBalance =
+  /*#__PURE__*/ createUseReadContract({
+    abi: multicall2Abi,
+    address: multicall2Address,
+    functionName: 'getEthBalance',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"getLastBlockHash"`
+ */
+export const useReadMulticall2GetLastBlockHash =
+  /*#__PURE__*/ createUseReadContract({
+    abi: multicall2Abi,
+    address: multicall2Address,
+    functionName: 'getLastBlockHash',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link multicall2Abi}__
+ */
+export const useWriteMulticall2 = /*#__PURE__*/ createUseWriteContract({
+  abi: multicall2Abi,
+  address: multicall2Address,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"aggregate"`
+ */
+export const useWriteMulticall2Aggregate = /*#__PURE__*/ createUseWriteContract(
+  { abi: multicall2Abi, address: multicall2Address, functionName: 'aggregate' },
+)
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"blockAndAggregate"`
+ */
+export const useWriteMulticall2BlockAndAggregate =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: multicall2Abi,
+    address: multicall2Address,
+    functionName: 'blockAndAggregate',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"tryAggregate"`
+ */
+export const useWriteMulticall2TryAggregate =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: multicall2Abi,
+    address: multicall2Address,
+    functionName: 'tryAggregate',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"tryBlockAndAggregate"`
+ */
+export const useWriteMulticall2TryBlockAndAggregate =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: multicall2Abi,
+    address: multicall2Address,
+    functionName: 'tryBlockAndAggregate',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link multicall2Abi}__
+ */
+export const useSimulateMulticall2 = /*#__PURE__*/ createUseSimulateContract({
+  abi: multicall2Abi,
+  address: multicall2Address,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"aggregate"`
+ */
+export const useSimulateMulticall2Aggregate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: multicall2Abi,
+    address: multicall2Address,
+    functionName: 'aggregate',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"blockAndAggregate"`
+ */
+export const useSimulateMulticall2BlockAndAggregate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: multicall2Abi,
+    address: multicall2Address,
+    functionName: 'blockAndAggregate',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"tryAggregate"`
+ */
+export const useSimulateMulticall2TryAggregate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: multicall2Abi,
+    address: multicall2Address,
+    functionName: 'tryAggregate',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link multicall2Abi}__ and `functionName` set to `"tryBlockAndAggregate"`
+ */
+export const useSimulateMulticall2TryBlockAndAggregate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: multicall2Abi,
+    address: multicall2Address,
+    functionName: 'tryBlockAndAggregate',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link permit2Abi}__
+ */
+export const useReadPermit2 = /*#__PURE__*/ createUseReadContract({
+  abi: permit2Abi,
+  address: permit2Address,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
+ */
+export const useReadPermit2DomainSeparator =
+  /*#__PURE__*/ createUseReadContract({
+    abi: permit2Abi,
+    address: permit2Address,
+    functionName: 'DOMAIN_SEPARATOR',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"allowance"`
+ */
+export const useReadPermit2Allowance = /*#__PURE__*/ createUseReadContract({
+  abi: permit2Abi,
+  address: permit2Address,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"nonceBitmap"`
+ */
+export const useReadPermit2NonceBitmap = /*#__PURE__*/ createUseReadContract({
+  abi: permit2Abi,
+  address: permit2Address,
+  functionName: 'nonceBitmap',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link permit2Abi}__
+ */
+export const useWritePermit2 = /*#__PURE__*/ createUseWriteContract({
+  abi: permit2Abi,
+  address: permit2Address,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"approve"`
+ */
+export const useWritePermit2Approve = /*#__PURE__*/ createUseWriteContract({
+  abi: permit2Abi,
+  address: permit2Address,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"invalidateNonces"`
+ */
+export const useWritePermit2InvalidateNonces =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: permit2Abi,
+    address: permit2Address,
+    functionName: 'invalidateNonces',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"invalidateUnorderedNonces"`
+ */
+export const useWritePermit2InvalidateUnorderedNonces =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: permit2Abi,
+    address: permit2Address,
+    functionName: 'invalidateUnorderedNonces',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"lockdown"`
+ */
+export const useWritePermit2Lockdown = /*#__PURE__*/ createUseWriteContract({
+  abi: permit2Abi,
+  address: permit2Address,
+  functionName: 'lockdown',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"permit"`
+ */
+export const useWritePermit2Permit = /*#__PURE__*/ createUseWriteContract({
+  abi: permit2Abi,
+  address: permit2Address,
+  functionName: 'permit',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"permitTransferFrom"`
+ */
+export const useWritePermit2PermitTransferFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: permit2Abi,
+    address: permit2Address,
+    functionName: 'permitTransferFrom',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"permitWitnessTransferFrom"`
+ */
+export const useWritePermit2PermitWitnessTransferFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: permit2Abi,
+    address: permit2Address,
+    functionName: 'permitWitnessTransferFrom',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useWritePermit2TransferFrom = /*#__PURE__*/ createUseWriteContract(
+  { abi: permit2Abi, address: permit2Address, functionName: 'transferFrom' },
+)
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link permit2Abi}__
+ */
+export const useSimulatePermit2 = /*#__PURE__*/ createUseSimulateContract({
+  abi: permit2Abi,
+  address: permit2Address,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"approve"`
+ */
+export const useSimulatePermit2Approve =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: permit2Abi,
+    address: permit2Address,
+    functionName: 'approve',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"invalidateNonces"`
+ */
+export const useSimulatePermit2InvalidateNonces =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: permit2Abi,
+    address: permit2Address,
+    functionName: 'invalidateNonces',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"invalidateUnorderedNonces"`
+ */
+export const useSimulatePermit2InvalidateUnorderedNonces =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: permit2Abi,
+    address: permit2Address,
+    functionName: 'invalidateUnorderedNonces',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"lockdown"`
+ */
+export const useSimulatePermit2Lockdown =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: permit2Abi,
+    address: permit2Address,
+    functionName: 'lockdown',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"permit"`
+ */
+export const useSimulatePermit2Permit = /*#__PURE__*/ createUseSimulateContract(
+  { abi: permit2Abi, address: permit2Address, functionName: 'permit' },
+)
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"permitTransferFrom"`
+ */
+export const useSimulatePermit2PermitTransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: permit2Abi,
+    address: permit2Address,
+    functionName: 'permitTransferFrom',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"permitWitnessTransferFrom"`
+ */
+export const useSimulatePermit2PermitWitnessTransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: permit2Abi,
+    address: permit2Address,
+    functionName: 'permitWitnessTransferFrom',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link permit2Abi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useSimulatePermit2TransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: permit2Abi,
+    address: permit2Address,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link permit2Abi}__
+ */
+export const useWatchPermit2Event = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: permit2Abi,
+  address: permit2Address,
+})
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link permit2Abi}__ and `eventName` set to `"Approval"`
+ */
+export const useWatchPermit2ApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: permit2Abi,
+    address: permit2Address,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link permit2Abi}__ and `eventName` set to `"Lockdown"`
+ */
+export const useWatchPermit2LockdownEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: permit2Abi,
+    address: permit2Address,
+    eventName: 'Lockdown',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link permit2Abi}__ and `eventName` set to `"NonceInvalidation"`
+ */
+export const useWatchPermit2NonceInvalidationEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: permit2Abi,
+    address: permit2Address,
+    eventName: 'NonceInvalidation',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link permit2Abi}__ and `eventName` set to `"Permit"`
+ */
+export const useWatchPermit2PermitEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: permit2Abi,
+    address: permit2Address,
+    eventName: 'Permit',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link permit2Abi}__ and `eventName` set to `"UnorderedNonceInvalidation"`
+ */
+export const useWatchPermit2UnorderedNonceInvalidationEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: permit2Abi,
+    address: permit2Address,
+    eventName: 'UnorderedNonceInvalidation',
+  })

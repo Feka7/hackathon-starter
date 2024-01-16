@@ -1,10 +1,11 @@
 import { defineConfig } from '@wagmi/cli'
-import { fetch } from '@wagmi/cli/plugins'
+import { fetch, react } from '@wagmi/cli/plugins'
 import dotenv from 'dotenv';
+import { abiStorage, abiOwner } from './contracts/abi/tenderly';
 dotenv.config({ path: '.env.local' });
 
-export default defineConfig({
-  out: 'contracts/generated.ts', 
+export default defineConfig([{
+  out: 'contracts/generated-fetch.ts', 
   plugins: [
     fetch({
       contracts: [
@@ -33,5 +34,22 @@ export default defineConfig({
         }
       },
     }),
+    react()
   ],
-})
+},
+{
+  out: 'contracts/generated-tenderly.ts',
+  contracts: [
+    {
+      name: 'Storage',
+      address: '0xe39b226fd118636254eb014cd5a1eac179fb7b92',
+      abi: abiStorage
+    },
+    {
+      name: 'Owner',
+      address: '0x0915efa9aa25e83fe341c99063b07e3280c70282',
+      abi: abiOwner
+    }
+  ],
+  plugins: [react()]
+}])
