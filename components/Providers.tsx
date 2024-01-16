@@ -21,7 +21,13 @@ export default function Providers({ children, initialState }: Props) {
           <SessionProvider>{children}</SessionProvider>
         </QueryClientProvider>
       </WagmiProvider>
-      <Toaster />
+      <Toaster
+      toastOptions={{
+        style: {
+          maxWidth: "fit-content"
+        }
+      }
+      } />
     </>
   );
 }

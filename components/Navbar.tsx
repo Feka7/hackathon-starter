@@ -13,7 +13,7 @@ export default function Navbav() {
                 {/* Navigation */}
                 <ul className="flex space-x-4">
                     <li><Link href="/utils">Utils</Link></li>
-                    <li>Contracts</li>
+                    <li><Link href="/contracts">Contracts</Link></li>
                     <li><Link href="/private">Private</Link></li>
                 </ul>
  

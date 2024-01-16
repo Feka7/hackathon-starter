@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import toast from "react-hot-toast";
 import { twMerge } from "tailwind-merge";
-import { formatEther, formatGwei, parseEther } from "viem";
+import { formatEther, formatGwei } from "viem";
 import {
   useAccount,
   useAccountEffect,

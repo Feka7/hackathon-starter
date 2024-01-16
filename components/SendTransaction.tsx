@@ -41,7 +41,7 @@ export default function SendTransaction() {
 
   const { data: waitTx, error: errorWaitTx } = useWaitForTransactionReceipt({
     hash: sendTx,
-    confirmations: 1,
+    confirmations: 1
   });
 
   useEffect(() => {
