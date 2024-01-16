@@ -1,3 +1,4 @@
+import Owner from "@/components/contracts/Owner";
 import Storage from "@/components/contracts/Storage";
 
 export default function Page() {
@@ -10,7 +11,7 @@ export default function Page() {
         </div>
         <div>
           <h3 className="text-2xl font-semibold">Owner</h3>
-          
+          <Owner />
         </div>
       </div>
     </main>
