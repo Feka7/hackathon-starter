@@ -3,7 +3,7 @@ import {
   useReadOwnerGetOwner,
   useWatchOwnerOwnerSetEvent,
   useWriteOwnerChangeOwner,
-} from "@/contracts/generated-tenderly";
+} from "@/lib/contracts/generated-tenderly";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Address } from "viem";
@@ -43,9 +43,12 @@ export default function Owner() {
       toast.error(error.message);
     },
     onLogs(logs) {
+      console.log(logs)
       const result = logs.find((log) => log.transactionHash === storeTx);
-      result?.args.newOwner && toast.success("New owner: "+result.args.newOwner);
+      result?.args.newOwner &&
+        toast.success("New owner: " + result.args.newOwner);
     },
+    poll: true,
   });
 
   const { data: waitTx, error: errorWaitTx } = useWaitForTransactionReceipt({
@@ -78,7 +81,9 @@ export default function Owner() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          writeContractOwner({ args: [value as Address] });
+          writeContractOwner({
+            args: [value as Address],
+          });
         }}
         className="form-control w-full"
       >

@@ -1,10 +1,34 @@
 import { defineConfig } from '@wagmi/cli'
-import { fetch, react } from '@wagmi/cli/plugins'
+import { blockExplorer, fetch, react } from '@wagmi/cli/plugins'
 import dotenv from 'dotenv';
-import { abiStorage, abiOwner } from './contracts/abi/tenderly';
+import { abiOwner } from './lib/contracts/abi/owner';
+import { abiStorage } from './lib/contracts/abi/storage';
+import { Address } from 'viem';
 dotenv.config({ path: '.env.local' });
 
-export default defineConfig([{
+export default defineConfig([
+  {
+    // Testing...
+    out: 'contracts/generated-blockExplorer.ts',
+    plugins: [
+      blockExplorer({
+        baseUrl: process.env.BLOCK_EXPLORER_URL as string,
+        apiKey: process.env.BLOCK_EXPLORER_API_KEY,
+        contracts: [
+          {
+            name: 'Permit2',
+            address: '0x000000000022d473030f116ddee9f6b43ac78ba3'
+          },
+          {
+            name: 'Multicall2',
+            address: '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
+          },
+        ],
+      }),
+    ],
+  },
+  {
+  // Testing...
   out: 'contracts/generated-fetch.ts', 
   plugins: [
     fetch({
@@ -42,12 +66,12 @@ export default defineConfig([{
   contracts: [
     {
       name: 'Storage',
-      address: '0xe39b226fd118636254eb014cd5a1eac179fb7b92',
+      address: process.env.STORAGE_ADDRESS as Address,
       abi: abiStorage
     },
     {
       name: 'Owner',
-      address: '0x0915efa9aa25e83fe341c99063b07e3280c70282',
+      address: process.env.OWNER_ADDRESS as Address,
       abi: abiOwner
     }
   ],
