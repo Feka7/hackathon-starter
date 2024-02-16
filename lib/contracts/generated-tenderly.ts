@@ -47,38 +47,9 @@ export const ownerAbi = [
 ] as const
 
 export const ownerAddress =
-  '0x5893dc283786771F1195e589a0ef8e722f7F5a01' as const
+  '0xBb3c4f11Ed4d563A6ACBcFcd8F94C40FB18BC70F' as const
 
 export const ownerConfig = { address: ownerAddress, abi: ownerAbi } as const
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Storage
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export const storageAbi = [
-  {
-    type: 'function',
-    inputs: [],
-    name: 'retrieve',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'num', internalType: 'uint256', type: 'uint256' }],
-    name: 'store',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-] as const
-
-export const storageAddress =
-  '0x3bE23B4d331A9D8c675d849Be08bAc2699c66A50' as const
-
-export const storageConfig = {
-  address: storageAddress,
-  abi: storageAbi,
-} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
@@ -153,54 +124,3 @@ export const useWatchOwnerOwnerSetEvent =
     address: ownerAddress,
     eventName: 'OwnerSet',
   })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link storageAbi}__
- */
-export const useReadStorage = /*#__PURE__*/ createUseReadContract({
-  abi: storageAbi,
-  address: storageAddress,
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link storageAbi}__ and `functionName` set to `"retrieve"`
- */
-export const useReadStorageRetrieve = /*#__PURE__*/ createUseReadContract({
-  abi: storageAbi,
-  address: storageAddress,
-  functionName: 'retrieve',
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link storageAbi}__
- */
-export const useWriteStorage = /*#__PURE__*/ createUseWriteContract({
-  abi: storageAbi,
-  address: storageAddress,
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link storageAbi}__ and `functionName` set to `"store"`
- */
-export const useWriteStorageStore = /*#__PURE__*/ createUseWriteContract({
-  abi: storageAbi,
-  address: storageAddress,
-  functionName: 'store',
-})
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link storageAbi}__
- */
-export const useSimulateStorage = /*#__PURE__*/ createUseSimulateContract({
-  abi: storageAbi,
-  address: storageAddress,
-})
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link storageAbi}__ and `functionName` set to `"store"`
- */
-export const useSimulateStorageStore = /*#__PURE__*/ createUseSimulateContract({
-  abi: storageAbi,
-  address: storageAddress,
-  functionName: 'store',
-})

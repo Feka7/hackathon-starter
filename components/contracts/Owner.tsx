@@ -1,9 +1,5 @@
 "use client";
-import {
-  useReadOwnerGetOwner,
-  useWatchOwnerOwnerSetEvent,
-  useWriteOwnerChangeOwner,
-} from "@/lib/contracts/generated-tenderly";
+
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Address } from "viem";
@@ -12,6 +8,7 @@ import {
   useSwitchChain,
   useWaitForTransactionReceipt,
 } from "wagmi";
+import { useReadOwnerGetOwner, useWatchOwnerOwnerSetEvent, useWriteOwnerChangeOwner } from "@/lib/contracts/generated-tenderly";
 
 export default function Owner() {
   const { isConnected, chain } = useAccount();
@@ -42,11 +39,12 @@ export default function Owner() {
     onError(error) {
       toast.error(error.message);
     },
+    batch: false,
     onLogs(logs) {
       console.log(logs)
       const result = logs.find((log) => log.transactionHash === storeTx);
-      result?.args.newOwner &&
-        toast.success("New owner: " + result.args.newOwner);
+      // result?.newOwner &&
+      //   toast.success("New owner: " + result.args.newOwner);
     },
     poll: true,
   });
